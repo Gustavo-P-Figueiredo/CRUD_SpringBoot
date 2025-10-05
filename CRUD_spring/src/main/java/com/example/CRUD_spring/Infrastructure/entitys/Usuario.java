@@ -22,4 +22,8 @@ public class Usuario {
 
     @Column (name = "nome")
     private  String nome;
+
+    public Usuario orElseThrow(Object usuárioNãoEncontrado) {
+        return null;
+    }
 }

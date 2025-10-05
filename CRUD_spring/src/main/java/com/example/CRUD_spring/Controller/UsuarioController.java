@@ -3,6 +3,7 @@ package com.example.CRUD_spring.Controller;
 
 import com.example.CRUD_spring.Business.UsuarioService;
 import com.example.CRUD_spring.Infrastructure.entitys.Usuario;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,12 +23,20 @@ public class UsuarioController {
 
     @GetMapping
     public ResponseEntity<Usuario> buscarUsuarioPorEmail(@RequestParam String email) {
-        return ResponseEntity.ok(usuarioService.buscarUsuarioPorEmail(email));
+        Usuario usuario = usuarioService.buscarUsuarioPorEmail(email);
+        return ResponseEntity.ok(usuario);
     }
 
-    @GetMapping
+    @DeleteMapping
     public ResponseEntity<Void> deletarUsuarioPorEmail(@RequestParam String email){
         usuarioService.deletarUsuarioPorEmail(email);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping
+    public ResponseEntity<Void> atualizarUsuarioPorId(@RequestParam Integer id, @RequestBody Usuario usuario){
+        usuarioService.atualizarUsuarioPorId(id, usuario);
+        return ResponseEntity.ok().build();
+    }
+
 }

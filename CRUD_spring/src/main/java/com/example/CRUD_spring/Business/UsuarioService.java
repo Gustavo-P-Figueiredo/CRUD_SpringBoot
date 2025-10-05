@@ -3,6 +3,7 @@ package com.example.CRUD_spring.Business;
 
 import com.example.CRUD_spring.Infrastructure.entitys.Usuario;
 import com.example.CRUD_spring.Infrastructure.repository.UsuarioRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,10 +20,8 @@ public class UsuarioService {
     }
 
     public Usuario buscarUsuarioPorEmail(String email){
-
-        return repository.findByEmail(email).orElseThrow(
-                () -> new RuntimeException("Email não encontrado")
-        );
+        return repository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("Email não encontrado"));
     }
 
     public void deletarUsuarioPorEmail(String email){
@@ -31,7 +30,8 @@ public class UsuarioService {
 
     public void atualizarUsuarioPorId(Integer id, Usuario usuario){
         Usuario usuarioEntity = repository.findById(id).orElseThrow(() ->
-                new RuntimeException("Usuario não encontrado"));
+            new EntityNotFoundException("Usuário não encontrado"));
+
         Usuario usuarioAtualizado = Usuario.builder()
                 .email(usuario.getEmail() != null ? usuario.getEmail() :
                         usuarioEntity.getEmail())
